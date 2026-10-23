@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Untuk Sayang 🤍</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #12040a;
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --accent: #ff7b9c;
+        --text: #fce4ec;
+        --glass: blur(12px);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: radial-gradient(circle at top right, #3a0b1e, #12040a);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 400px;
+        height: 100vh;
+        max-height: 800px;
+        position: relative;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Efek Kaca (Glassmorphism) */
+    .glass-card {
+        background: var(--card-bg);
+        backdrop-filter: var(--glass);
+        -webkit-backdrop-filter: var(--glass);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 30px 20px;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+    }
+
+    .glass-card.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    h1, h2 {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        color: #fff;
+        margin-bottom: 15px;
+    }
+
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+
+    p { font-size: 0.95rem; line-height: 1.6; color: #d1b0b8; }
+
+    /* Tombol */
+    .btn {
+        background: linear-gradient(135deg, #ff7b9c, #e05a7a);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        width: 100%;
+        cursor: pointer;
+        margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(255, 123, 156, 0.3);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:active { transform: scale(0.95); }
+    .btn:disabled { background: #555; box-shadow: none; cursor: not-allowed; opacity: 0.7; }
+
+    /* Input Kunci */
+    .input-pass {
+        width: 100%;
+        padding: 15px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(0,0,0,0.2);
+        color: white;
+        text-align: center;
+        font-size: 1.2rem;
+        letter-spacing: 5px;
+        margin-bottom: 10px;
+        outline: none;
+    }
+
+    /* Galeri Foto */
+    .photo-container {
+        width: 100%;
+        height: 250px;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        background: #2a0a16;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .photo-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Teks Ketik (Typewriter) */
+    .type-text {
+        border-right: 2px solid var(--accent);
+        white-space: pre-wrap;
+        overflow: hidden;
+        animation: blink 0.75s step-end infinite;
+    }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    /* Tombol Musik */
+    #musicBtn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+        backdrop-filter: var(--glass);
+        z-index: 10;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(255, 123, 156, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(255, 123, 156, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 123, 156, 0); }
+    }
+
+    /* Animasi Love */
+    .hearts { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+    .heart { position: absolute; color: var(--accent); font-size: 20px; animation: floatUp 4s linear infinite; opacity: 0; }
+    @keyframes floatUp {
+        0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+        100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+</style>
+</head>
+<body>
+
+<div class="hearts" id="hearts-container"></div>
+<button id="musicBtn">♪</button>
+
+<div class="container">
+    
+    <!-- SCREEN 1: KUNCI (PASSWORD) -->
+    <div class="glass-card active" id="screen-lock">
+        <h1>Hai, Sayang 🤍</h1>
+        <p>Masukkan PIN rahasia kita untuk membuka ini.</p>
+        <input type="password" id="pinInput" class="input-pass" placeholder="****" maxlength="4" inputmode="numeric">
+        <button class="btn" onclick="checkPin()">Buka Kado</button>
+    </div>
+
+    <!-- SCREEN 2: INTRO -->
+    <div class="glass-card" id="screen-intro">
+        <h2>Selamat Ulang Tahun ke-21</h2>
+        <div class="photo-container">
+            <img src="foto/1.jpg" alt="Foto Kita" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Sayang'">
+        </div>
+        <p id="introText" class="type-text"></p>
+        <button class="btn" onclick="nextScreen('screen-chapters')">Mulai Cerita</button>
+    </div>
+
+    <!-- SCREEN 3: CERITA (KARTU) -->
+    <div class="glass-card" id="screen-chapters">
+        <h2 id="chapterTitle">Judul Cerita</h2>
+        <div class="photo-container">
+            <img id="chapterImg" src="" alt="Foto Chapter">
+        </div>
+        <p id="chapterText"></p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.6;" id="chapterDate"></p>
+        <button class="btn" id="nextChapterBtn" onclick="nextChapter()">Lanjut</button>
+    </div>
+
+    <!-- SCREEN 4: SURAT -->
+    <div class="glass-card" id="screen-letter" style="max-height: 80vh; overflow-y: auto;">
+        <h2>Surat Kecil</h2>
+        <p style="text-align: left; margin-bottom: 15px;">Sayang,</p>
+        <div id="letterContainer" style="text-align: left; font-size: 0.9rem; line-height: 1.8;"></div>
+        <p style="text-align: right; margin-top: 20px; font-style: italic; color: var(--accent);">- Dari Aku, Untukmu.</p>
+        <button class="btn" onclick="location.reload()" style="background: transparent; border: 1px solid var(--accent); margin-top: 15px;">Putar Ulang</button>
+    </div>
+
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="champagne-supernova.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // ====== DATA KAMU (UBAH DI SINI) ======
+    const PIN_RAHASIA = "1606"; // Ganti dengan tanggal jadian (16 Juni -> 1606)
+    
+    const INTRO_TEXT = "Hari ini spesial banget. Aku bikin ini khusus buat kamu, biar kamu tau seberapa berarti kamu buat aku. Siap baca cerita kita?";
+    
+    const CHAPTERS = [
+        { 
+            judul: "Pertama Kali Kenal", 
+            tanggal: "Awal Mula", 
+            teks: "Waktu itu kita nggak nyangka bakal sedekat ini. Dari obrolan ringan, sampai jadi orang yang paling aku cari tiap hari.", 
+            foto: "foto/2.jpg" 
+        },
+        { 
+            judul: "Jadian", 
+            tanggal: "16 Juni 2020", 
+            teks: "Momen paling penting. Sejak hari itu, semua cerita sedih dan senang kita jalanin bareng. Makasih udah milih aku ya.", 
+            foto: "foto/3.jpg" 
+        },
+        { 
+            judul: "Kita Hari Ini", 
+            tanggal: "Sekarang", 
+            teks: "Kita udah lewatin banyak hal. Kamu tetap jadi orang yang paling bikin aku tenang. Selamat ulang tahun, cintaku.", 
+            foto: "foto/4.jpg" 
+        }
+    ];
+
+    const SURAT = [
+        "Ini bukan sekadar web, ini bentuk kecil dari rasa sayangku yang mungkin susah diucapin langsung.",
+        "Makasih ya udah sabar, makasih udah nemenin, dan makasih udah jadi rumah buat aku pulang.",
+        "Semoga di umur ke-21 ini, semua yang kamu impikan bisa tercapai. Tetap jadi perempuan kuat yang aku kenal.",
+        "Aku akan selalu ada, di setiap langkah kamu. Happy birthday, Sayang! 🤍"
+    ];
+    // ======================================
+
+    let currentChapter = 0;
+    let musicPlaying = false;
+
+    // --- FUNGSI MUSIK ---
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+
+    document.body.addEventListener('click', () => {
+        if(!musicPlaying) {
+            bgMusic.volume = 0.5;
+            bgMusic.play().then(() => {
+                musicPlaying = true;
+                musicBtn.style.animation = 'none'; // Matikan animasi pulse
+            }).catch(() => {});
+        }
+    }, { once: true });
+
+    musicBtn.onclick = () => {
+        if (bgMusic.paused) {
+            bgMusic.play();
+            musicBtn.style.opacity = 1;
+        } else {
+            bgMusic.pause();
+            musicBtn.style.opacity = 0.5;
+        }
+    };
+
+    // --- FUNGSI PIN ---
+    function checkPin() {
+        const val = document.getElementById('pinInput').value;
+        if(val === PIN_RAHASIA) {
+            nextScreen('screen-intro');
+            startTypewriter();
+            createHearts();
+        } else {
+            alert("PIN Salah. Coba ingat tanggal jadian kita! 😉");
+        }
+    }
+
+    // --- FUNGSI PINDAH SCREEN ---
+    function nextScreen(screenId) {
+        document.querySelectorAll('.glass-card').forEach(el => el.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+        
+        if(screenId === 'screen-chapters') {
+            renderChapter();
+        }
+        if(screenId === 'screen-letter') {
+            renderLetter();
+        }
+    }
+
+    // --- EFEK KETIK ---
+    function startTypewriter() {
+        const el = document.getElementById('introText');
+        let i = 0;
+        el.innerHTML = '';
+        function type() {
+            if (i < INTRO_TEXT.length) {
+                el.innerHTML += INTRO_TEXT.charAt(i);
+                i++;
+                setTimeout(type, 40);
+            }
+        }
+        type();
+    }
+
+    // --- FUNGSI CHAPTER ---
+    function renderChapter() {
+        const data = CHAPTERS[currentChapter];
+        document.getElementById('chapterTitle').innerText = data.judul;
+        document.getElementById('chapterDate').innerText = data.tanggal;
+        document.getElementById('chapterText').innerText = data.teks;
+        document.getElementById('chapterImg').src = data.foto;
+        
+        const btn = document.getElementById('nextChapterBtn');
+        if(currentChapter === CHAPTERS.length - 1) {
+            btn.innerText = "Baca Surat 💌";
+            btn.onclick = () => nextScreen('screen-letter');
+        } else {
+            btn.innerText = "Lanjut Cerita";
+            btn.onclick = () => { currentChapter++; renderChapter(); };
+        }
+    }
+
+    // --- FUNGSI SURAT ---
+    function renderLetter() {
+        const container = document.getElementById('letterContainer');
+        container.innerHTML = '';
+        SURAT.forEach((p, i) => {
+            const el = document.createElement('p');
+            el.innerText = p;
+            el.style.marginBottom = "15px";
+            el.style.opacity = 0;
+            container.appendChild(el);
+            
+            setTimeout(() => {
+                el.style.transition = "opacity 1s";
+                el.style.opacity = 1;
+            }, i * 1000);
+        });
+    }
+
+    // --- EFEK HATI BERJATUHAN ---
+    function createHearts() {
+        const container = document.getElementById('hearts-container');
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = '🤍';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            container.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }, 300);
+    }
+</script>
+</body>
+</html>
